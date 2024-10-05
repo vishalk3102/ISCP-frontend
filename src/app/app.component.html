@@ -1,0 +1,12 @@
+<main>
+  @if(showHeader){
+  <app-header></app-header>}
+  <div class="content-area">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  @if(showHeader){
+  <app-footer></app-footer>
+  }
+</main>

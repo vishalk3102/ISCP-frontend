@@ -1,0 +1,116 @@
+<section class="login-container">
+  <div class="login">
+    <div class="login-intro">
+      <img class="img-fluid" src="assets/images/compliance.jpg" alt="" />
+      <div class="intro-text">
+        <ul>
+          <li>
+            <strong>Data Protection:</strong> Ensuring that all sensitive data
+            is encrypted and securely stored.
+          </li>
+          <li>
+            <strong>Access Control:</strong> Implementing strict access control
+            mechanisms to restrict unauthorized access.
+          </li>
+          <!-- <li><strong>Regular Audits:</strong> Conducting frequent security audits and vulnerability assessments.</li> -->
+          <li>
+            <strong>Compliance with Standards:</strong> Adhering to industry
+            standards such as ISO27001, GDPR, HIPAA, and PCI-DSS.
+          </li>
+          <li>
+            <strong>Patch Management:</strong> Regularly updating software to
+            fix security vulnerabilities and bugs.
+          </li>
+          <!-- <li><strong>Incident Response:</strong> Establishing a robust incident response plan for security breaches.</li> -->
+        </ul>
+      </div>
+    </div>
+    <div class="login-form">
+      <div class="login-header">
+        <img
+          class="logo-dark img-fluid"
+          src="assets/images/contata-logo-dark.png"
+          alt="Contata Solutions"
+        />
+      </div>
+      <form [formGroup]="LoginForm" (submit)="onSubmit()">
+        <div class="login-body">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label for="userName" class="form-label">Username</label>
+              <input
+                id="userName"
+                type="text"
+                class="form-control"
+                formControlName="username"
+              />
+              @if(loginForm['username'].errors?.['required'] &&
+              (loginForm['username'].touched || loginForm['username'].dirty)){
+              <div class="text-danger mt-1">Username is required</div>
+              }
+              @else if(loginForm['username'].errors?.['emailDomain'] && loginForm['username'].touched){
+                <div class="text-danger mt-1">Username syntax is not correct !</div>
+              }
+            </div>
+            <div class="col-md-12">
+              <label for="password" class="form-label">Password</label>
+              <input
+              pInputText 
+                id="password"
+                type="password"
+                class="form-control"
+                formControlName="password"
+              />
+              @if(loginForm['password'].errors?.['required'] &&
+              (loginForm['password'].touched || loginForm['password'].dirty)){
+              <div class="text-danger mt-1">Password is required</div>
+              } @if(loginForm['password'].errors?.['minlength'] &&
+              (loginForm['password'].touched || loginForm['password'].dirty)){
+              <div class="text-danger mt-1">
+                Password must be at least 4 characters
+              </div>
+              } @if(loginForm['password'].errors?.['maxlength'] &&
+              (loginForm['password'].touched || loginForm['password'].dirty)){
+              <div class="text-danger mt-1">
+                Password must not exceed 40 characters
+              </div>
+              }
+            </div>
+            <!-- <div class="col-md-12">
+                        <img class="img-fluid" src="assets/images/captcha.png" alt="">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="userName" class="form-label">Type the symbols from the above Captcha image</label>
+                        <input id="userName" type="text" class="form-control">
+                    </div> -->     
+            <div class="col-md-12 d-flex justify-content-center">
+              <ngx-recaptcha2
+                #captchaElem
+                [siteKey]="siteKey"
+                formControlName="recaptcha"
+                (resolved)="onRecaptchaResolved($event)"
+                (errored)="handleCaptchaError($event)"
+              >
+              </ngx-recaptcha2>
+              @if(loginForm['recaptcha'].errors?.['required'] &&
+              (loginForm['recaptcha'].touched || loginForm['recaptcha'].dirty)){
+              <div class="text-danger mt-1">Captcha is required</div>
+              }
+            </div>
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-primary">Login</button>
+              <!-- <input id="password" type="text" class="form-control form-control-lg"> -->
+            </div>
+            <div class="col-md-12">
+              <span class="cs-rights"
+                >Contata Solutions © 2024. All rights reserved.</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Toaster can be placed when api's are called -->
+     
+      </form>
+    </div>
+  </div>
+</section>
