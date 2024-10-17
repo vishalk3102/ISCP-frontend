@@ -1,0 +1,468 @@
+<div class="custom-component">
+  <h1>Security Compliance</h1>
+  <!-- search filter -->
+  <form [formGroup]="form" (submit)="searchFilter()">
+    <section class="search-filter">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="frameworkCategory" class="form-label"
+            >Framework Category</label
+          >
+          <p-multiSelect
+            id="frameworkCategory"
+            formControlName="frameworkCategory"
+            [options]="frameworkCategories"
+            optionLabel="frameworkCategoryName"
+            placeholder="Select Framework Category"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="frameworkName" class="form-label">Framework</label>
+          <p-multiSelect
+            id="frameworkName"
+            formControlName="frameworkName"
+            [options]="frameworkNames"
+            optionLabel="frameworkName"
+            placeholder="Select Framework Name"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="controlType" class="form-label">Control Category</label>
+          <p-multiSelect
+            id="controlType"
+            formControlName="controlCategory"
+            [options]="controlCategories"
+            optionLabel="controlCategoryName"
+            placeholder="Select Control category"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="control" class="form-label">Control</label>
+          <p-multiSelect
+            id="control"
+            formControlName="control"
+            [options]="controls"
+            optionLabel="controlName"
+            placeholder="Select Controls"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="complianceChecklist" class="form-label"
+            >Compliance Checklist</label
+          >
+          <p-multiSelect
+            #complianceChecklistDropdown
+            id="complianceChecklist"
+            formControlName="complianceChecklist"
+            [options]="complianceChecklists"
+            optionLabel="controlChecklist"
+            placeholder="Select Checklist"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="Department" class="form-label">Department</label>
+          <p-multiSelect
+            id="Department"
+            formControlName="Department"
+            [options]="departments"
+            optionLabel="departmentName"
+            placeholder="Select Department"
+            [showClear]="true"
+            [resetFilterOnHide]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="EvidenceStatus" class="form-label">Evidence Status</label>
+          <p-dropdown
+            id="EvidenceStatus"
+            formControlName="EvidenceStatus"
+            [options]="evidenceStatuses"
+            optionLabel="name"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="Status" class="form-label">Status</label>
+          <p-dropdown
+            id="Status"
+            formControlName="Status"
+            [options]="statuses"
+            optionLabel="name"
+          />
+        </div>
+
+        <div class="col-md-2">
+          <label for="calendarFrom" class="form-label"
+            >Compliance Calendar From</label
+          >
+          <p-calendar
+            id="calendarFrom"
+            formControlName="calendarFrom"
+            [showIcon]="true"
+            view="month"
+            placeholder="{{ today }}"
+            [dateFormat]="monthYearFormat"
+          ></p-calendar>
+        </div>
+
+        <div class="col-md-2">
+          <label for="calendarTo" class="form-label"
+            >Compliance Calendar To</label
+          >
+          <p-calendar
+            id="calendarTo"
+            formControlName="calendarTo"
+            [showIcon]="true"
+            view="month"
+            placeholder="{{ today }}"
+            [dateFormat]="monthYearFormat"
+            [minDate]="minDate"
+          ></p-calendar>
+        </div>
+
+        <div class="col-md-4">
+          <div class="btn-serach-cont">
+            <button type="button" class="btn btn-secondary" (click)="onReset()">
+              <i class="fa-solid fa-xmark"></i> Reset
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-magnifying-glass"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+  <!-- end -->
+  <!-- forms and datagrid -->
+  <section class="form-grid">
+    <div class="table-responsive">
+      <p-table
+        [value]="data"
+        class="p-datatable"
+        id="compliance-table"
+        [(selection)]="selecteddata"
+        [first]="first"
+        styleClass="p-datatable-striped"
+        [lazy]="true"
+        (onLazyLoad)="loadData($event)"
+        [paginator]="true"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 100, 150, 200, 250, 300]"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        paginatorDropdownAppendTo="body"
+      >
+        <ng-template pTemplate="caption"
+          ><div class="tbl-header">
+            @if(isAdmin()){
+            <a routerLink="/security-compliance-add-edit"
+              ><i class="fa-solid fa-plus"></i> Add New Security Compliance</a
+            >}
+            <a href="javascript:void(0)" (click)="exportToExcel()"
+              ><i class="fa-solid fa-file-excel"></i> Export to Excel</a
+            >
+            <a href="javascript:void(0)" (click)="exportToPDF()"
+              ><i class="fa-solid fa-file-pdf" (click)="exportToPDF()"></i>
+              Export to PDF</a
+            >
+          </div></ng-template
+        >
+        <ng-template pTemplate="header">
+          <tr>
+            <th><p-tableHeaderCheckbox /></th>
+            <th pSortableColumn="recordId">
+              Record ID <p-sortIcon field="recordId" />
+            </th>
+            <th pSortableColumn="frameworkCategory">
+              Framework Category <p-sortIcon field="frameworkCategory" />
+            </th>
+            <th pSortableColumn="frameworkName">
+              Framework <p-sortIcon field="frameworkName" />
+            </th>
+            <th pSortableColumn="controlCategory">
+              Control Category <p-sortIcon field="controlCategory" />
+            </th>
+            <th pSortableColumn="controlName">
+              Control <p-sortIcon field="controlName" />
+            </th>
+            <th>Checklist</th>
+            <th>Periodicity</th>
+            <th class="departments">Department</th>
+            <th>Evidence</th>
+            <th>Evidence Status</th>
+            <th>Status</th>
+            @if(isAdmin() || isUploader()){
+            <th>Actions</th>
+            }
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td><p-tableCheckbox [value]="data" /></td>
+            <td>{{ data.recordId }}</td>
+            <td>{{ data.frameworkCategory }}</td>
+            <td>{{ data.frameworkName }}</td>
+            <td>{{ data.controlCategory }}</td>
+            <td>{{ data.controlName }}</td>
+            <td>{{ data.checklistName }}</td>
+            <td>
+              <ng-container [ngSwitch]="data.periodicity">
+                <ng-container *ngSwitchCase="'Bi_Annually'"
+                  >Bi Annually</ng-container
+                >
+                <ng-container *ngSwitchCase="'Annually'">Annually</ng-container>
+                <ng-container *ngSwitchCase="'Quarterly'"
+                  >Quarterly</ng-container
+                >
+                <ng-container *ngSwitchCase="'Monthly'">Monthly</ng-container>
+                <ng-container *ngSwitchCase="'OnEvent'">On Event</ng-container>
+                <ng-container *ngSwitchDefault>Unknown</ng-container>
+              </ng-container>
+            </td>
+            <td>{{ data.departments?.join(", ") || "N/A" }}</td>
+
+            <td>
+              <p-dropdown
+                [options]="getEvidenceOptions(data.evidenceList)"
+                placeholder="Select Evidence"
+                (onChange)="openEvidenceModal($event)"
+                appendTo="body"
+                [disabled]="
+                  !data.evidenceList || data.evidenceList.length === 0
+                "
+              >
+              </p-dropdown>
+            </td>
+            <td>{{ data.evidenceComments }}</td>
+            <td>{{ data.evidenceComplianceStatus ? "Active" : "Inactive" }}</td>
+            @if(isAdmin() || isUploader()){
+            <td>
+              <a
+                title="Upload Evidence"
+                href="javascript:void(0)"
+                data-bs-toggle="modal"
+                data-bs-target="#uploadEvidenceModal"
+                (click)="
+                  openUploadEvidenceModal(data.securityId, data.checklistName)
+                "
+                ><i class="fa-solid fa-upload"></i
+              ></a>
+            </td>
+            }
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="tbl-footer">
+      <div class="tbl-footer-notes">
+        <strong>Note:</strong> Lorem Ipsum is simply dummy text of the printing
+        and typesetting industry.
+      </div>
+      <div class="tbl-footer-btn">
+        @if (isViewer() || isUploader()) {
+        <button class="btn btn-secondary" (click)="onCancel()">
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </button>
+        } @if(isAdmin()){
+        <button class="btn btn-secondary" (click)="onCancel()">
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </button>
+        <button class="btn btn-primary" (click)="navigateToAddEditPage()">
+          <i class="fa-solid fa-pencil"></i> Edit
+        </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- end -->
+</div>
+
+<!-- Modal evidence -->
+<p-dialog
+  header="Evidence"
+  [(visible)]="displayEvidenceModal"
+  [modal]="true"
+  [closable]="false"
+  [maximizable]="true"
+>
+  <div *ngIf="selectedBlob" class="modal-content">
+    <div
+      *ngIf="!isimage() && !isPdf() && !isvideo()"
+      class="d-flex align-items-center mb-2"
+    >
+      <i class="fas fa-folder fa-4x"></i>
+      <span class="fs-4 p-3"> {{ evidencename }}</span>
+    </div>
+
+    <img
+      *ngIf="isimage()"
+      [src]="selectedUrl"
+      style="width: 100%; height: auto"
+    />
+    <iframe
+      *ngIf="isPdf()"
+      [src]="selectedUrl"
+      width="100%"
+      height="100%"
+      type="application/pdf"
+    ></iframe>
+    <video
+      *ngIf="isvideo()"
+      [src]="selectedUrl"
+      controls
+      style="width: 100%; height: auto"
+      controls
+      autoplay
+    ></video>
+
+    <p *ngIf="!isimage() && !isPdf() && !isvideo()" class="fs-5">
+      Please download this file to view its contents.
+    </p>
+  </div>
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-bs-dismiss="modal"
+      (click)="closeDialog()"
+    >
+      Close
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-dismiss="modal"
+      (click)="downloadEvidence()"
+    >
+      Download
+    </button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  header="Upload Evidence"
+  [(visible)]="displayUploadEvidenceModal"
+  [modal]="true"
+  [closable]="false"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  [style]="{
+    width: calculateModalWidth(),
+    height: calculateModalHeight(),
+    'max-width': '100vw',
+    'max-height': '100vh'
+  }"
+  [contentStyle]="{ height: calculateModalTableHeight() }"
+>
+  <div class="modal-content">
+    <div class="container">
+      <div class="buttons">
+        <button
+          class="btn btn-secondary"
+          type="button"
+          (click)="triggerFileInput()"
+        >
+          <i class="fa-solid fa-folder-open"></i>Choose
+        </button>
+        <!-- <button class="btn btn-secondary" type="button" (click)="uploadEvidence()">Upload</button> -->
+        <button
+          class="btn btn-secondary"
+          type="button"
+          (click)="cancelUpload()"
+        >
+          <i class="fa-solid fa-xmark"></i>Cancel
+        </button>
+      </div>
+      <label> Drag and drop files here </label>
+      <label style="color: red"> Maximun allowed size is 50MB </label>
+    </div>
+    <input
+      type="file"
+      #fileInput
+      style="display: none"
+      (change)="onFileInput($event)"
+    />
+    <div class="file-list" [style.maxHeight]="calculateFileListHeight()">
+      <table *ngIf="selectedFiles.length > 0" class="file-details mt-3">
+        <thead>
+          <tr>
+            <th style="padding: 10px; border: 1px solid #ddd">Preview</th>
+            <th style="padding: 10px; border: 1px solid #ddd">Name</th>
+            <th style="padding: 10px; border: 1px solid #ddd">Size</th>
+            <th style="padding: 10px; border: 1px solid #ddd">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let file of selectedFiles; let i = index"
+            style="border-bottom: 1px solid #ddd"
+          >
+            <td class="pt-1">
+              @if(isImage(file)){
+              <img
+                *ngIf="imagePreviews[i]"
+                [src]="imagePreviews[i]"
+                alt="Image preview"
+                style="max-width: 100px; max-height: 100px; border-radius: 5px"
+              />
+              } @else if(isPDF(file)){
+              <i class="fas fa-file-pdf" style="font-size: 50px"></i>
+              } @else if(isVideo(file)){
+              <i class="fas fa-file-video" style="font-size: 50px"></i>
+              } @else if(isExcel(file)){
+              <i class="fas fa-file-excel" style="font-size: 50px"></i>
+              } @else if(isaudio(file)){
+              <i class="fas fa-headphones" style="font-size: 50px"></i>
+              } @else{
+              <i class="fas fa-folder-open" style="font-size: 50px"></i>
+              }
+            </td>
+
+            <td class="pt-1">{{ file.name }}</td>
+            <td class="pt-1">
+              {{ (file.size / (1024 * 1024)).toFixed(2) }} MB
+            </td>
+            <td class="pt-1">
+              <button class="btn btn-danger btn-sm" (click)="removeFile(i)">
+                ×
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <button type="button" class="btn btn-primary" (click)="uploadEvidence()">
+      <i class="fa-solid fa-upload"></i>Upload
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">
+      Close
+    </button>
+  </ng-template>
+</p-dialog>
+
+@if(loading){
+<div class="card flex justify-content-center prime-spinner">
+  <p-progressSpinner
+    styleClass="w-2rem h-2rem"
+    strokeWidth="4"
+    fill="var(--surface-ground)"
+  />
+</div>
+}

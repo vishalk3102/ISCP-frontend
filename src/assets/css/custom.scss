@@ -1,0 +1,403 @@
+// @import 'all.min.css';
+// @import 'bootstrap.min.css';
+
+.custom-component {
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .search-filter {
+        background-color: #f7f7f7;
+        border: solid 1px #e1e1e1;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+    }
+
+    .form-footer {
+        background-color: #f7f7f7;
+        border-top: solid 1px #e1e1e1;
+        margin-top: 30px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .form-footer-notes {
+            color: #ff0000;
+        }
+
+        .tbl-footer-btn {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        @include mobile() {
+            flex-direction: column-reverse;
+
+            .tbl-footer-btn {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    }
+
+    .form-grid {
+        margin: 50px 0;
+    }
+
+    .btn-serach-cont {
+        display: flex;
+        gap: 10px;
+    }
+
+    .cs {
+        tr>td {
+            vertical-align: middle;
+        }
+
+        .expmonth-control {
+            white-space: nowrap;
+
+            input {
+                max-width: 90px;
+                display: inline-block;
+            }
+        }
+
+        .cell-checkbox {
+            width: 40px;
+        }
+
+        .tbl-link-space {
+            display: inline-flex;
+            gap: 10px;
+        }
+    }
+
+    .cs>* {
+        font-size: 14px;
+    }
+
+    .tbl-header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+        gap: 15px;
+
+        a {
+            text-decoration: none;
+        }
+    }
+
+    .tbl-footer {
+        background-color: #f7f7f7;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .tbl-footer-notes {
+            color: #ff0000;
+        }
+
+        .tbl-footer-btn {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        @include mobile() {
+            flex-direction: column-reverse;
+
+            .tbl-footer-btn {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    }
+
+    // common
+    input[type=checkbox] {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .dropdown-menu {
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+
+            label {
+                margin-inline-start: 5px;
+            }
+        }
+    }
+
+    .accordion-button {
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .role-checkbox {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+    }    
+}
+
+// login
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 2.75rem;
+    left: 0;
+    right: 0;
+    bottom: 2.75rem;
+
+    .login-header {
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .login {
+        margin: auto;
+        max-width: 900px;
+        width: 100dvw;
+        box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        display: flex;
+
+        .btn-primary {
+            width: 100%;
+        }
+    }
+
+    .login-intro {
+        position: relative;
+        flex-basis: 50%;
+        background-color: #090c13;
+        border-radius: 8px 0 0 8px;
+
+        img {
+            border-radius: 8px 0 0 8px;
+        }
+    }
+
+    .intro-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        font-size: 13px;
+        color: var(--color-secondary);
+        // text-align: center;
+        // background-color: rgba(255, 255, 255, 0.1);
+
+        ul li{
+            margin-bottom: 8px;
+        }
+    }
+
+    .login-form {
+        padding: 50px 50px;
+        flex-basis: 50%;
+    }
+
+    .logo-dark {
+        max-height: 40px;
+        height: 100%;
+    }
+
+    .cs-rights{
+        font-size: 12px;
+        text-align: center;
+        display: block;
+    }
+
+    @include mobile() {
+        .login {
+            flex-direction: column-reverse;
+            box-shadow: none;
+            border-radius: 0;
+            justify-content: flex-start;
+        }
+    }
+}
+
+// dashboard
+.dashboard {
+    .card-body {
+        height: 60dvh;
+
+        @include mobile() {
+            height: auto;
+        }
+    }
+
+    h4{
+        margin: 10px 0;
+    }
+}
+
+.btn-primary {
+    border: none;
+    background-color: rgba(239, 76, 37, 0.8);
+    color: #fff;
+
+    &:hover {
+        background-color: rgba(239, 76, 37, 1);
+        ;
+        color: #fff;
+    }
+}
+
+.required::after {
+    content: ' *';
+    color: var(--color-primary);
+}
+
+
+//drag-drop-area
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .fa-solid{
+        margin-right: 0.25rem;
+    }
+  }
+  
+  .buttons {
+    margin-bottom: 20px;
+  }
+
+
+  @media only screen and (max-width: 320px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      margin-bottom: 10px;
+    }
+    .drag-drop-area {
+      padding: 10px;
+      font-size: 14px;
+    }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 425px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      margin-bottom: 12px;
+    }
+    .drag-drop-area {
+      padding: 12px;
+      font-size: 15px;
+    }
+}
+@media only screen and (min-width: 426px) and (max-width: 600px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      margin-bottom: 15px;
+    }
+    .drag-drop-area {
+      padding: 15px;
+      font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      margin-bottom: 18px;
+    }
+    .drag-drop-area {
+      padding: 18px;
+      font-size: 17px;
+    }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      margin-bottom: 20px;
+    }
+    .drag-drop-area {
+      padding: 20px;
+      font-size: 18px;
+    }
+}
+
+
+@media only screen and (min-width: 426px) and (max-width: 600px){
+   .fa-solid{
+    margin-right: 0.5rem;
+} 
+}
+@media only screen and (max-width: 425px){
+    .fa-solid{
+        margin-right: 0.25rem;
+    } 
+}
+
+//primeng table 
+.p-datatable {
+    th{
+    color: #ffff;
+    background-color: #212529;
+}
+th ,td{
+    padding: 0.5rem;
+}
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) {
+    background: #f7f7f7;;
+}
+.departments{
+    width: 150px;
+}
+}
+
+//spinner
+
+.prime-spinner{
+    
+        display: flex;
+        justify-content: center;
+        align-items: center;      
+        position: fixed;         
+        top: 0;
+        left: 0;
+        height: 100vh;           
+        width: 100vw;             
+        background-color: rgba(255, 255, 255, 0.4); 
+        z-index: 9999;  
+      
+}

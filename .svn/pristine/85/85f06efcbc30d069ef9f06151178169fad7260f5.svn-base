@@ -1,0 +1,223 @@
+<div class="custom-component">
+  <h1>Framework</h1>
+  <!-- search filter -->
+  <form [formGroup]="form" (submit)="searchFilter()">
+    <section class="search-filter">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="frameworkCategory" class="form-label"
+            >Framework Category</label
+          >
+          <p-dropdown
+            id="frameworkCategory"
+            formControlName="frameworkCategory"
+            [options]="frameworkCategories"
+            optionLabel="frameworkCategoryName"
+            placeholder="Select Framework Category"
+            [showClear]="true"
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="frameworkName" class="form-label">Framework</label>
+          <p-dropdown
+            id="frameworkName"
+            formControlName="frameworkName"
+            [options]="frameworkNames"
+            optionLabel="frameworkName"
+            placeholder="Select Framework Name"
+            [showClear]="true"
+          />
+        </div>
+        <div class="col-md-4">
+          <label for="Status" class="form-label">Status</label>
+          <p-dropdown
+            id="Status"
+            formControlName="Status"
+            [options]="statuses"
+            optionLabel="name"
+          />
+        </div>
+
+        <div class="col-md-2">
+          <label for="calendarFrom" class="form-label"
+            >Compliance Calendar From</label
+          >
+          <p-calendar
+            id="calendarFrom"
+            formControlName="calendarFrom"
+            [showIcon]="true"
+            view="month"
+            placeholder="{{ yearstartDate }}"
+            [dateFormat]="monthYearFormat"
+          ></p-calendar>
+        </div>
+
+        <div class="col-md-2">
+          <label for="calendarTo" class="form-label"
+            >Compliance Calendar To</label
+          >
+          <p-calendar
+            id="calendarTo"
+            formControlName="calendarTo"
+            [showIcon]="true"
+            view="month"
+            placeholder="{{ today }}"
+            [dateFormat]="monthYearFormat"
+            [minDate]="minDate"
+          ></p-calendar>
+        </div>
+
+        <div class="col-md-4">
+          <!-- <label for="employee" class="form-label">&nbsp;</label> -->
+          <div class="btn-serach-cont d-flex justify-content-end mt-3">
+            <div class="btn-serach-cont">
+              <button type="button" class="btn btn-secondary">
+                <i class="fa-solid fa-xmark"></i> Reset
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i> Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+  <!-- end -->
+
+  <!-- forms and datagrid -->
+  <section class="form-grid">
+    <div class="table-responsive">
+      <p-table
+        [value]="data"
+        class="p-datatable"
+        id="compliance-table"
+        [(selection)]="selecteddata"
+        [first]="first"
+        styleClass="p-datatable-striped"
+        [lazy]="true"
+        (onLazyLoad)="loadData($event)"
+        [paginator]="true"
+        [rows]="rows"
+        [totalRecords]="totalRecords"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 100, 150, 200, 250, 300]"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        paginatorDropdownAppendTo="body"
+      >
+        <ng-template pTemplate="caption">
+          <div class="tbl-header">
+            <a href="javascript:void(0)"
+              ><i class="fa-solid fa-file-excel"></i> Export to Excel</a
+            >
+            <a href="javascript:void(0)"
+              ><i class="fa-solid fa-file-pdf"></i> Export to PDF</a
+            >
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th><p-tableHeaderCheckbox /></th>
+            <th>Framework Category</th>
+            <th>Framework</th>
+            <th>Compliance Calendar</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>
+              <p-checkbox
+                [formControl]="isEditingControl"
+                (change)="toggleEdit()"
+              />
+            </td>
+            <td colspan="5">
+              <form [formGroup]="frameworkForm" class="form-inline">
+                <div class="row g-2">
+                  <!-- Framework Category -->
+                  <div class="col-md-3">
+                    <p-dropdown
+                      id="frameworkCategory"
+                      formControlName="frameworkCategory"
+                      [options]="frameworkCategories"
+                      optionLabel="frameworkCategoryName"
+                      placeholder="Select Framework Category"
+                      [showClear]="true"
+                      styleClass="w-100"
+                    ></p-dropdown>
+                  </div>
+
+                  <!-- Framework Name -->
+                  <div class="col-md-3">
+                    <p-dropdown
+                      id="frameworkName"
+                      formControlName="frameworkName"
+                      [options]="frameworkNames"
+                      optionLabel="frameworkName"
+                      placeholder="Select Framework Name"
+                      [showClear]="true"
+                      styleClass="w-100"
+                    ></p-dropdown>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="col-md-3">
+                    <input
+                      pInputText
+                      formControlName="description"
+                      placeholder="Description"
+                      class="form-control w-100"
+                    />
+                  </div>
+
+                  <!-- Status -->
+                  <div class="col-md-3">
+                    <p-dropdown
+                      id="status"
+                      formControlName="status"
+                      [options]="statuses"
+                      optionLabel="name"
+                      placeholder="Select Status"
+                      [showClear]="true"
+                      styleClass="w-100"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </form>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td><p-tableCheckbox [value]="data" /></td>
+            <td>{{ data.frameworkCategory.frameworkCategoryName }}</td>
+            <td>{{ data.frameworkName }}</td>
+            <td>{{ data.startDate }} - {{ data.endDate }}</td>
+            <td>{{ data.description }}</td>
+            <td>{{ data.status ? "Active" : "Inactive" }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="tbl-footer">
+      <div class="tbl-footer-notes">
+        <strong>Note:</strong> Lorem Ipsum is simply dummy text of the printing
+        and typesetting industry.
+      </div>
+      <div class="tbl-footer-btn">
+        <button class="btn btn-secondary">
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </button>
+        <button class="btn btn-primary">
+          <i class="fa-solid fa-floppy-disk"></i> Save
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- end -->
+</div>

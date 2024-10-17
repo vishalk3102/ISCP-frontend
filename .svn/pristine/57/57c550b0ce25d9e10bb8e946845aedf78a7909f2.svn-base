@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/dashboard" title="Contata"><img class="img-fluid logo" src="assets/images/contata-logo.png" alt="Contata"></a>
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/security-compliance']" routerLinkActive="active">Security Compliance</a>
+                </li>
+                @if(isAdmin()){
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" routerLinkActive="active" [ngClass]="{'active': childFramework.isActive || childControl.isActive || childChecklist.isActive || childUser.isActive || childRole.isActive}" data-bs-toggle="dropdown" aria-expanded="false">Master</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" routerLink="/framework" routerLinkActive="active" #childFramework="routerLinkActive">Framework</a></li>
+                      <li><a class="dropdown-item" routerLink="/control" routerLinkActive="active" #childControl="routerLinkActive">Control</a></li>
+                      <li><a class="dropdown-item" routerLink="/checklist" routerLinkActive="active" #childChecklist="routerLinkActive">Checklist</a></li>
+                      <li><a class="dropdown-item" routerLink="/user" routerLinkActive="active" #childUser="routerLinkActive">User</a></li>
+                      <li><a class="dropdown-item" routerLink="/role" routerLinkActive="active" #childRole="routerLinkActive">Role</a></li>
+                    </ul>
+                  </li>}
+                 
+            </ul>
+            <div class="ms-auto dropdown">
+                <a class="btn btn-light dropdown-toggle" href="javascript:void(0)" routerLinkActive="active" data-bs-toggle="dropdown" aria-expanded="false">{{username}}</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                     
+                      <li><a class="dropdown-item" routerLinkActive="active" (click)="logout()">Logout</a></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,34 @@
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-list {
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+.file-details {
+  width: 100%;
+}
+
+// p-dropdown {
+//   z-index: 1000;
+//   /* Adjust as needed */
+// }
+
+// .dropdown-wrapper {
+//   position: relative;
+// }
+
+// .p-dropdown-panel {
+//   z-index: 1000;
+// }
+
+// #compliance-table .p-datatable-tbody>tr>td {
+//   padding: 0.5rem 0.5rem;
+// }
+
+// #compliance-table .p-datatable-tbody>tr:last-child>td {
+//   padding-bottom: 2rem;
+// }
